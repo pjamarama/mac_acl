@@ -41,9 +41,7 @@ def output_d2m1():
     + quad0 + ' ' + macdict.get('dev2mac1') + quad0 + ' ip')
     command5 = (str(start_string+30) + ' permit ' + macdict.get('dev2mac1')
     + quad0 + ' ' + macdict.get('dev1mac1') + quad0 + ' ip')
+    return [command1, command2, command3, command4, command5]
 
-    result = [command1, command2, command3, command4, command5]
-
-    return result
-
-print (output_d2m1())
+cmd_d2m1 = output_d2m1()
+print (cmd_d2m1)
