@@ -1,4 +1,8 @@
-# Add nested loop
+ch1n5k1 = {
+    ip = ''
+    username = ''
+}
+
 
 numdev = int(input('How many devices? '))
 nummac = int(input('How many MAC addresses per device? '))
