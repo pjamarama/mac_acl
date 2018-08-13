@@ -70,5 +70,5 @@ elif len(devlist) == 3 and len(macdict) == 6:
     connect(output_d3m2())
 elif len(devlist) == 4 and len(macdict) == 4:
     connect(output_d4m1())
-elif len(devlist) == 4 and len(macdict) == 8:
+else len(devlist) == 4 and len(macdict) == 8:
     connect(output_d4m2())
