@@ -18,8 +18,8 @@ for nd in range (1, numdev+1):
         input('Enter MAC address in Cisco notation (aaaa.bbbb.cccc) \
 in the same order you entered MAC addresses: ')
 
-print (devlist)
-print (macdict)
+print ('CI names: ', devlist)
+print ('MAC addresses: ', macdict)
 
 def output_d2m1():
     command1 = ('remark N1:' + devlist[0]
@@ -51,8 +51,6 @@ def output_d4m2():
     pass
 
 
-# for i in output_d2m1():
-#     print(i)
 
 def connect(x):
     for device in switches_ch_all:
