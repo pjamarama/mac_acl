@@ -11,4 +11,4 @@ def connect(x):
 def output_d2m1():
     return 'show clock'
 
-connect(output_d2m1)
+connect(output_d2m1())
