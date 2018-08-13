@@ -3,7 +3,7 @@ from netmiko import ConnectHandler
 
 def connect(x):
     print ('*******   Connecting to ', test_switch.get('ip'))
-    net_connect = ConnectHandler(test_switch)
+    net_connect = ConnectHandler(**test_switch)
     acl_commands = x
     output_acl = net_connect.send_config_set(acl_commands)
     print (output_acl + '\n')
