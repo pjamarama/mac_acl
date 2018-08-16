@@ -24,7 +24,7 @@ for nd in range (1, numdev+1):
     for nm in range (1, nummac+1):
         macdict['dev{0}mac{1}'.format(nd, nm)] = \
         input('Enter MAC address in Cisco notation (aaaa.bbbb.cccc) \
-in the same order you entered the devices: ')
+in the same order you entered the devices (e.g. device1 MAC1, device1 MAC2): ')
 
 print ('CI names: ', devlist)
 print ('MAC addresses: ', macdict)
@@ -128,7 +128,6 @@ def connect(acl_commands):
         output_acl = net_connect.send_config_set(acl_commands, exit_config_mode=False)
         print (output_acl + '\n')
         sleep(3)
-
 
 if len(devlist) == 2 and len(macdict) == 1:
     connect(output_d2m1())
