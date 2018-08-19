@@ -25,6 +25,14 @@ for nd in range (1, numdev+1):
         input('Enter MAC address in Cisco notation (aaaa.bbbb.cccc) \
 in the same order you entered the devices (e.g. device1 MAC1, device1 MAC2): ')
 
+# devlist = ['sw1', 'sw2', 'sw3', 'sw4']
+# macdict = {
+# 'dev1mac1': 'd1m1', 
+# 'dev2mac1': 'd2m1', 
+# 'dev3mac1': 'd3m1', 
+# 'dev4mac1': 'd4m1'
+# }
+
 print ('CI names: ', devlist)
 print ('MAC addresses: ', macdict)
 
@@ -110,7 +118,7 @@ def output_d3m2():
     + macdict.get('dev3mac2') + zeros + ' ip')
     command10 = ('permit ' + macdict.get('dev3mac2') + zeros + ' '
     + macdict.get('dev2mac2') + zeros + ' ip')
-    result = [command0, command1, command2, command3, command4, command5,
+    return [command0, command1, command2, command3, command4, command5,
     command6, command7, command8, command9, command10]
 
 def output_d4m1():
@@ -120,41 +128,41 @@ def output_d4m1():
     # defined in output_d3m1(). To be executed
 
     # dev1mac1 dev4mac1
-    command0 = 'mac access-list SB-ACL-VLAN310'
-    command1 = ('remark N1:' + devlist[0] + ', N2:' + devlist[3])
-    command2 = ('permit ' + macdict.get('dev1mac1') + zeros + ' '
+    command20 = 'mac access-list SB-ACL-VLAN310'
+    command21 = ('remark N1:' + devlist[0] + ', N2:' + devlist[3])
+    command22 = ('permit ' + macdict.get('dev1mac1') + zeros + ' '
     + macdict.get('dev4mac1') + zeros + ' 0x806')
-    command3 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
+    command23 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
     + macdict.get('dev1mac1') + zeros + ' 0x806')
-    command4 = ('permit ' + macdict.get('dev1mac1') + zeros + ' '
+    command24 = ('permit ' + macdict.get('dev1mac1') + zeros + ' '
     + macdict.get('dev4mac1') + zeros + ' ip')
-    command5 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
+    command25 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
     + macdict.get('dev1mac1') + zeros + ' ip')
 
     # dev2mac1 dev4mac1
-    command6 = ('remark N1:' + devlist[1] + ', N2:' + devlist[3])
-    command7 = ('permit ' + macdict.get('dev2mac1') + zeros + ' '
+    command26 = ('remark N1:' + devlist[1] + ', N2:' + devlist[3])
+    command27 = ('permit ' + macdict.get('dev2mac1') + zeros + ' '
     + macdict.get('dev4mac1') + zeros + ' 0x806')
-    command8 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
+    command28 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
     + macdict.get('dev2mac1') + zeros + ' 0x806')
-    command9 = ('permit ' + macdict.get('dev2mac1') + zeros + ' '
+    command29 = ('permit ' + macdict.get('dev2mac1') + zeros + ' '
     + macdict.get('dev4mac1') + zeros + ' ip')
-    command10 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
+    command30 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
     + macdict.get('dev2mac1') + zeros + ' ip')
 
     # dev3mac1 dev4mac1
-    command11 = ('remark N1:' + devlist[2] + ', N2:' + devlist[3])
-    command12 = ('permit ' + macdict.get('dev3mac1') + zeros + ' '
+    command31 = ('remark N1:' + devlist[2] + ', N2:' + devlist[3])
+    command32 = ('permit ' + macdict.get('dev3mac1') + zeros + ' '
     + macdict.get('dev4mac1') + zeros + ' 0x806')
-    command13 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
+    command33 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
     + macdict.get('dev3mac1') + zeros + ' 0x806')
-    command14 = ('permit ' + macdict.get('dev3mac1') + zeros + ' '
+    command34 = ('permit ' + macdict.get('dev3mac1') + zeros + ' '
     + macdict.get('dev4mac1') + zeros + ' ip')
-    command15 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
+    command35 = ('permit ' + macdict.get('dev4mac1') + zeros + ' '
     + macdict.get('dev3mac1') + zeros + ' ip')
-    result = [command0, command1, command2, command3, command4, command5,
-    command6, command7, command8, command9, command10, command11,
-    command12, command13, command14, command15]
+    return [command20, command21, command22, command23, command24, command25,
+    command26, command27, command28, command29, command30, command31,
+    command32, command33, command34, command35]
 
 def output_d4m2():
     # Commands for devlist[0] devlist[1] MAC1 are in output_d2m1()
@@ -193,7 +201,7 @@ def output_d4m2():
     + macdict.get('dev4mac2') + zeros + ' ip')
     command15 = ('permit ' + macdict.get('dev4mac2') + zeros + ' '
     + macdict.get('dev3mac2') + zeros + ' ip')
-    result = [command0, command1, command2, command3, command4, command5,
+    return [command0, command1, command2, command3, command4, command5,
     command6, command7, command8, command9, command10, command11,
     command12, command13, command14, command15]
 
@@ -205,13 +213,13 @@ def command_list(*x):
     confirm = input('Would you like to connect to devices and \
 send these commands? (y/n)' )
     if confirm == 'y':
-        return print('Connecting...')
+        return print('Okay then. Fasten your seatbelts...')
     else:
         print('Have a nice day!')
         quit()
 
 def connect(acl_commands):
-#    print(acl_commands)
+    print('Connecting...')
     print('Hey-ho, that is all!')
 
 if len(devlist) == 2 and len(macdict) == 2:
@@ -222,25 +230,21 @@ elif len(devlist) == 2 and len(macdict) == 4:
     connect(output_d2m1())
     connect(output_d2m2())
 elif len(devlist) == 3 and len(macdict) == 3:
-    # output_d3m1()
     command_list(output_d2m1(), output_d3m1())
     connect(output_d2m1())
     connect(output_d3m1())
 elif len(devlist) == 3 and len(macdict) == 6:
-    # output_d3m2
     command_list(output_d2m1(), output_d2m2(), output_d3m1(), output_d3m2())
     connect(output_d2m1())
     connect(output_d2m2())
     connect(output_d3m1())
     connect(output_d3m2())
 elif len(devlist) == 4 and len(macdict) == 4:
-    # output_d4m1()
     command_list(output_d2m1(), output_d3m1(), output_d4m1())
     connect(output_d2m1())
     connect(output_d3m1())
     connect(output_d4m1())
 else:
-    # output_d4m2()
     command_list(output_d2m1(), output_d2m2(), output_d3m1(), output_d3m2(), 
 output_d4m1(), output_d4m2())
     connect(output_d2m1())
@@ -249,4 +253,3 @@ output_d4m1(), output_d4m2())
     connect(output_d3m2())
     connect(output_d4m1())
     connect(output_d4m2())
- 
