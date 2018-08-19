@@ -1,6 +1,5 @@
 from ci_addrs import switches_ch_all
 from netmiko import ConnectHandler
-from time import sleep
 
 zeros = ' 0000.0000.0000'
 
@@ -41,7 +40,6 @@ def output_d2m1():
     + macdict.get('dev2mac1') + zeros + ' ip')
     command5 = ('permit ' + macdict.get('dev2mac1') + zeros + ' '
     + macdict.get('dev1mac1') + zeros + ' ip')
-    print('The commands to send are below: ')
     return [command0, command1, command2, command3, command4, command5]
 
 def output_d2m2():
@@ -199,39 +197,52 @@ def output_d4m2():
     command6, command7, command8, command9, command10, command11,
     command12, command13, command14, command15]
 
-def command_list(x):
-    print('The commands to be sent are: ')
+def command_list(*x):
+    print('The commands to be sent are: \n')
     for command in x:
-        print(command)
-
+        for c in command:
+            print(c)
+    confirm = input('Would you like to connect to devices and \
+send these commands? (y/n)' )
+    if confirm == 'y':
+        return print('Connecting...')
+    else:
+        print('Have a nice day!')
+        quit()
 
 def connect(acl_commands):
-    for device in switches_ch_all:
-        print ('*******   Connecting to ', device.get('ip'))
-        net_connect = ConnectHandler(**device)
-        output_acl = net_connect.send_config_set(acl_commands, exit_config_mode=False)
-        print (output_acl + '\n')
-        sleep(3)
+#    print(acl_commands)
+    print('Hey-ho, that is all!')
 
-if len(devlist) == 2 and len(macdict) == 1:
+if len(devlist) == 2 and len(macdict) == 2:
     command_list(output_d2m1())
     connect(output_d2m1())
 elif len(devlist) == 2 and len(macdict) == 4:
+    command_list(output_d2m1(), output_d2m2())
     connect(output_d2m1())
     connect(output_d2m2())
 elif len(devlist) == 3 and len(macdict) == 3:
+    # output_d3m1()
+    command_list(output_d2m1(), output_d3m1())
     connect(output_d2m1())
     connect(output_d3m1())
 elif len(devlist) == 3 and len(macdict) == 6:
+    # output_d3m2
+    command_list(output_d2m1(), output_d2m2(), output_d3m1(), output_d3m2())
     connect(output_d2m1())
     connect(output_d2m2())
     connect(output_d3m1())
     connect(output_d3m2())
 elif len(devlist) == 4 and len(macdict) == 4:
+    # output_d4m1()
+    command_list(output_d2m1(), output_d3m1(), output_d4m1())
     connect(output_d2m1())
     connect(output_d3m1())
     connect(output_d4m1())
 else:
+    # output_d4m2()
+    command_list(output_d2m1(), output_d2m2(), output_d3m1(), output_d3m2(), 
+output_d4m1(), output_d4m2())
     connect(output_d2m1())
     connect(output_d2m2())
     connect(output_d3m1())
