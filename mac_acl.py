@@ -1,3 +1,4 @@
+import re
 from time import sleep
 from netmiko import ConnectHandler
 from ci_addrs import switches_ch_all
@@ -19,15 +20,12 @@ for i in range(numdev):
     dl = input('Enter the CI\'s name: ')
     devlist.append(dl)
 
-macdict = {}
-for nd in range(1, numdev+1):
-    for nm in range(1, nummac+1):
-        macdict['dev{0}mac{1}'.format(nd, nm)] = \
-        input('Enter MAC address in Cisco notation (aaaa.bbbb.cccc) \
+no_format_macdict = {}
+for nd in range (1, numdev+1):
+    for nm in range (1, nummac+1):
+        no_format_macdict['dev{0}mac{1}'.format(nd, nm)] = \
+        input('Enter MAC address \
 in the same order you entered the devices (e.g. device1 MAC1, device1 MAC2): ')
-
-print('CI names: ', devlist)
-print('MAC addresses: ', macdict)
 
 def format_mac(mac: str) -> str:
     mac = re.sub('[.:-]', '', mac).lower()
@@ -36,6 +34,11 @@ def format_mac(mac: str) -> str:
     assert mac.isalnum()
     mac = ".".join(["%s" % (mac[i:i+4]) for i in range(0, 12, 4)])
     return mac
+
+macdict = {k: format_mac(v) for k, v in no_format_macdict.items()}
+
+print('CI names: ', devlist)
+print('MAC addresses: ', macdict)
 
 def output_d2m1():
     # dev[0] dev[1] mac 1
@@ -206,6 +209,13 @@ def output_d4m2():
     command6, command7, command8, command9, command10, command11,
     command12, command13, command14, command15]
 
+def wr():
+    for device in switches_ch_all:
+        print('*******   Saving running-config of ', device.get('ip'))
+        net_connect = ConnectHandler(**device)
+        net_connect.send_config_set('copy running-config startup-config')
+        print('*******   Configuration saved')
+
 def command_list(*x):
     print('The commands to be sent are: \n')
     for command in x:
@@ -214,7 +224,7 @@ def command_list(*x):
     confirm = input('Would you like to connect to devices and \
 send these commands? (y/n)' )
     if confirm == 'y':
-        return print('Okay then. Fasten your seatbelts.')
+        return print('Okay then. Fasten your seatbelts.\n')
     else:
         print('Have a nice day!')
         quit()
@@ -224,32 +234,38 @@ def connect(acl_commands):
     for device in switches_ch_all:
         print('*******   Connecting to ', device.get('ip'))
         net_connect = ConnectHandler(**device)
-        output_acl = net_connect.send_config_set(acl_commands, exit_config_mode=False)
+        output_acl = net_connect.send_config_set(acl_commands,
+        exit_config_mode=False)
         print(output_acl + '\n')
         sleep(5)
 
 if len(devlist) == 2 and len(macdict) == 2:
     command_list(output_d2m1())
     connect(output_d2m1())
+    wr()
 elif len(devlist) == 2 and len(macdict) == 4:
     command_list(output_d2m1(), output_d2m2())
     connect(output_d2m1())
     connect(output_d2m2())
+    wr()
 elif len(devlist) == 3 and len(macdict) == 3:
     command_list(output_d2m1(), output_d3m1())
     connect(output_d2m1())
     connect(output_d3m1())
+    wr()
 elif len(devlist) == 3 and len(macdict) == 6:
     command_list(output_d2m1(), output_d2m2(), output_d3m1(), output_d3m2())
     connect(output_d2m1())
     connect(output_d2m2())
     connect(output_d3m1())
     connect(output_d3m2())
+    wr()
 elif len(devlist) == 4 and len(macdict) == 4:
     command_list(output_d2m1(), output_d3m1(), output_d4m1())
     connect(output_d2m1())
     connect(output_d3m1())
     connect(output_d4m1())
+    wr()
 else:
     command_list(output_d2m1(), output_d2m2(), output_d3m1(), output_d3m2(),
 output_d4m1(), output_d4m2())
@@ -259,3 +275,4 @@ output_d4m1(), output_d4m2())
     connect(output_d3m2())
     connect(output_d4m1())
     connect(output_d4m2())
+    wr()
