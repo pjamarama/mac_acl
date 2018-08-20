@@ -1,5 +1,6 @@
-from ci_addrs import switches_ch_all
+from time import sleep
 from netmiko import ConnectHandler
+from ci_addrs import switches_ch_all
 
 zeros = ' 0000.0000.0000'
 
@@ -15,18 +16,18 @@ while nummac not in (1, 2):
 
 devlist = []
 for i in range(numdev):
-    dl = input('Enter the CI\'s name ')
+    dl = input('Enter the CI\'s name: ')
     devlist.append(dl)
 
 macdict = {}
-for nd in range (1, numdev+1):
-    for nm in range (1, nummac+1):
+for nd in range(1, numdev+1):
+    for nm in range(1, nummac+1):
         macdict['dev{0}mac{1}'.format(nd, nm)] = \
         input('Enter MAC address in Cisco notation (aaaa.bbbb.cccc) \
 in the same order you entered the devices (e.g. device1 MAC1, device1 MAC2): ')
 
-print ('CI names: ', devlist)
-print ('MAC addresses: ', macdict)
+print('CI names: ', devlist)
+print('MAC addresses: ', macdict)
 
 def output_d2m1():
     # dev[0] dev[1] mac 1
@@ -205,7 +206,7 @@ def command_list(*x):
     confirm = input('Would you like to connect to devices and \
 send these commands? (y/n)' )
     if confirm == 'y':
-        return print('Okay then. Fasten your seatbelts...')
+        return print('Okay then. Fasten your seatbelts.')
     else:
         print('Have a nice day!')
         quit()
@@ -213,10 +214,11 @@ send these commands? (y/n)' )
 
 def connect(acl_commands):
     for device in switches_ch_all:
-        print ('*******   Connecting to ', device.get('ip'))
+        print('*******   Connecting to ', device.get('ip'))
         net_connect = ConnectHandler(**device)
         output_acl = net_connect.send_config_set(acl_commands, exit_config_mode=False)
-        print (output_acl + '\n')
+        print(output_acl + '\n')
+        sleep(5)
 
 if len(devlist) == 2 and len(macdict) == 2:
     command_list(output_d2m1())
@@ -241,7 +243,7 @@ elif len(devlist) == 4 and len(macdict) == 4:
     connect(output_d3m1())
     connect(output_d4m1())
 else:
-    command_list(output_d2m1(), output_d2m2(), output_d3m1(), output_d3m2(), 
+    command_list(output_d2m1(), output_d2m2(), output_d3m1(), output_d3m2(),
 output_d4m1(), output_d4m2())
     connect(output_d2m1())
     connect(output_d2m2())
